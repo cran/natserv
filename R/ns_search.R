@@ -1,0 +1,40 @@
+#' NatureServe taxonomic name search
+#'
+#' @export
+#' @param x (character) A name to search for. An asterisk (*) wildcarded species
+#' name, e.g., 'Aquila chry*'. Name matching is case-insensitive and all of
+#' the primary and synonymous scientific names, along with all common names,
+#' are matched. Required.
+#' @template ns
+#'
+#' @return A tibble (data.frame), with columns:
+#' \itemize{
+#'  \item jurisdictionScientificName - Scientfic name
+#'  \item commonName - Common name
+#'  \item globalSpeciesUid - UID - the taxonomic identifier NatureServe uses
+#'  \item natureServeExplorerURI - URL to get to info online for the taxon
+#'  \item taxonomicComments - comments about the taxon, if any
+#' }
+#'
+#' @examples \dontrun{
+#' ns_search(x = "Ruby*")
+#' ns_search(x = "Helianthus annuus")
+#' ns_search(x = "Ursus americanus")
+#' }
+ns_search <- function(x, key = NULL, ...) {
+  res <- ns_GET(
+    url = paste0(ns_base(), '/v1/globalSpecies/list/nameSearch'),
+    query = list(name = gsub("\\s", "%20", x), NSAccessKeyId = check_key(key)),
+    ...
+  )
+  xml <- xml2::read_xml(res)
+  kids <- xml2::xml_children(xml2::xml_children(xml)[[2]])
+  dat <- lapply(kids, function(z) {
+    data.frame(sapply(xml2::xml_children(z), function(x) {
+      as.list(stats::setNames(xml2::xml_text(x), xml2::xml_name(x)))
+    }), stringsAsFactors = FALSE)
+  })
+  df <- data.table::setDF(data.table::rbindlist(dat, use.names = TRUE, fill = TRUE))
+  df <- move_col2(df, "natureServeExplorerURI")
+  tibble::as_data_frame(df)
+}
