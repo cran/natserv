@@ -59,12 +59,23 @@ ns_images <- function(uid = NULL, scientificName = NULL, commonName = NULL,
                       includeSynonyms = NULL, resolution = NULL,
                       ITISNames = NULL, key = NULL, ...) {
 
+  assert(uid, "character")
+  check_uid(uid)
+  assert(scientificName, "character")
+  assert(commonName, "character")
+  assert(includeSynonyms, "character")
+  assert(resolution, "character")
+  assert(ITISNames, "character")
   args <- tc(list(uid = uid, scientificName = scientificName,
                   commonName = commonName, includeSynonyms = includeSynonyms,
                   resolution = resolution,
                   ITISNames = ITISNames, NSAccessKeyId = check_key(key)))
-  res <- ns_GET(url = paste0(ns_base(), '/v1/globalSpecies/images'),
-                query = args, ...)
+  res <- ns_GET(
+    url = paste0(ns_base(), '/v1/globalSpecies/images'),
+    query = args,
+    err_fxn = err_catch_images,
+    ...
+  )
   xml <- xml2::read_xml(res)
   list(
     terms = strtrim(xml2::xml_text(

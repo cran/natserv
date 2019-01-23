@@ -22,9 +22,11 @@
 #' ns_search(x = "Ursus americanus")
 #' }
 ns_search <- function(x, key = NULL, ...) {
+  assert(x, "character")
   res <- ns_GET(
     url = paste0(ns_base(), '/v1/globalSpecies/list/nameSearch'),
     query = list(name = x, NSAccessKeyId = check_key(key)),
+    err_fxn = err_catch_search,
     ...
   )
   xml <- xml2::read_xml(res)

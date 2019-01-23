@@ -15,6 +15,7 @@
 #'  \item conservationStatus
 #'  \item managementSummary
 #'  \item distribution
+#'  \item ecologyAndLifeHistory
 #' }
 #'
 #' @examples \dontrun{
@@ -24,13 +25,20 @@
 #' res <- ns_data(uid = c('ELEMENT_GLOBAL.2.100925', 'ELEMENT_GLOBAL.2.104470'))
 #' res$ELEMENT_GLOBAL.2.100925
 #' res$ELEMENT_GLOBAL.2.104470
+#'
+#' ns_data(uid = 'ELEMENT_GLOBAL.2.101998')
 #' }
 ns_data <- function(uid, key = NULL, ...) {
+  assert(uid, "character")
+  uid <- toupper(uid)
+  check_uid(uid)
+
   res <- ns_GET(
     url = paste0(ns_base(), '/v1.1/globalSpecies/comprehensive'),
     query = list(
       uid = paste0(uid, collapse = ","),
       NSAccessKeyId = check_key(key)),
+    err_fxn = err_catch_data,
     ...
   )
   xml <- xml2::read_xml(res, encoding = "UTF-8")
@@ -39,6 +47,7 @@ ns_data <- function(uid, key = NULL, ...) {
     nsuri <- xml2::xml_text(xml2::xml_find_first(m, ".//d1:natureServeExplorerURI"))
     class <- xml2::as_list(xml2::xml_find_first(m, ".//d1:classification"))
     ecostat <- xml2::xml_text(xml2::xml_find_first(m, ".//d1:economicAttributes"))
+    ecology <- xml2::as_list(xml2::xml_find_first(m, ".//d1:ecologyAndLifeHistory"))
     license <- strtrim(xml2::xml_text(xml2::xml_find_first(m, ".//d1:license")))
     refs <- xml2::xml_text(xml2::xml_children(xml2::xml_find_first(m, "//d1:references")))
     constat <- xml2::xml_find_first(m, ".//d1:conservationStatus")
@@ -56,6 +65,7 @@ ns_data <- function(uid, key = NULL, ...) {
       natureserve_uri = nsuri,
       classification = class,
       economicAttributes = ecostat,
+      ecologyAndLifeHistory = ecology,
       license = license,
       references = refs,
       conservationStatus = list(other = constat_other, natureserve = constat_ns),
@@ -84,7 +94,9 @@ parse_dist <- function(x) {
               as_list_(xml2::xml_child(which_name(xml2::xml_children(z), "nationalDistributions")[[1]]))
             },
             subnations = {
-              kids <- xml2::xml_children(which_name(xml2::xml_children(z), "subnations")[[1]])
+              sbn <- which_name(xml2::xml_children(z), "subnations")
+              if (length(sbn) == 0) return(list())
+              kids <- xml2::xml_children(sbn[[1]])
               lapply(kids, function(z) {
                 c(
                   as.list(xml2::xml_attrs(z)),

@@ -12,7 +12,7 @@ ns_data(uid, key = NULL, ...)
 \item{key}{(character) API key. Required. See \strong{Authentication} below
 for more.}
 
-\item{...}{Curl options passed on to \code{\link[httr]{GET}}}
+\item{...}{Curl options passed on to \code{\link[crul]{HttpClient}}}
 }
 \value{
 a named list, with possible slots:
@@ -25,6 +25,7 @@ a named list, with possible slots:
  \item conservationStatus
  \item managementSummary
  \item distribution
+ \item ecologyAndLifeHistory
 }
 }
 \description{
@@ -104,6 +105,7 @@ See \code{\link{Startup}} for information on how to create/find your
  state/province.
 }
 }
+
 \examples{
 \dontrun{
 ## single id
@@ -112,9 +114,10 @@ See \code{\link{Startup}} for information on how to create/find your
 res <- ns_data(uid = c('ELEMENT_GLOBAL.2.100925', 'ELEMENT_GLOBAL.2.104470'))
 res$ELEMENT_GLOBAL.2.100925
 res$ELEMENT_GLOBAL.2.104470
+
+ns_data(uid = 'ELEMENT_GLOBAL.2.101998')
 }
 }
 \references{
 \url{https://services.natureserve.org/index.jsp}
 }
-
