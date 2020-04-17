@@ -1,32 +1,36 @@
 Package: natserv
 Title: 'NatureServe' Interface
-Description: Interface to 'NatureServe' (<http://www.natureserve.org>).
+Description: Interface to 'NatureServe' (<https://www.natureserve.org>).
     Includes methods to get data, image metadata, search taxonomic names,
     and make maps.
-Version: 0.3.0
+Version: 0.4.0
 License: MIT + file LICENSE
-URL: https://github.com/ropensci/natserv
+URL: https://docs.ropensci.org/natserv,
+        https://github.com/ropensci/natserv
 BugReports: https://github.com/ropensci/natserv/issues
-Authors@R: person("Scott", "Chamberlain", role = c("aut", "cre"),
-    email = "myrmecocystus@gmail.com",
-    comment = c(ORCID="0000-0003-1444-9135")
-    )
+Authors@R: c(
+    person("Scott", "Chamberlain", role = c("aut", "cre"),
+        email = "myrmecocystus@gmail.com",
+        comment = c(ORCID="0000-0003-1444-9135")),
+    person(given = "rOpenSci",
+        role = "fnd",
+        comment = "https://ropensci.org/"))
 LazyData: true
 VignetteBuilder: knitr
 Language: en-US
 Encoding: UTF-8
 Depends: R(>= 3.2.1)
-Imports: crul (>= 0.7.0), xml2 (>= 1.2.0), tibble (>= 2.0.1),
-        data.table (>= 1.12.0)
+Imports: crul (>= 0.7.0), xml2, tibble, data.table
 Suggests: testthat, knitr, ggplot2, maps, mapproj, vcr
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.0
 X-schema.org-applicationCategory: Taxonomy
 X-schema.org-keywords: taxonomy, species, API, web-services,
         NatureServe, metadata, maps
 X-schema.org-isPartOf: https://ropensci.org
 NeedsCompilation: no
-Packaged: 2019-01-23 03:14:10 UTC; sckott
-Author: Scott Chamberlain [aut, cre] (<https://orcid.org/0000-0003-1444-9135>)
+Packaged: 2020-04-17 20:15:05 UTC; sckott
+Author: Scott Chamberlain [aut, cre] (<https://orcid.org/0000-0003-1444-9135>),
+  rOpenSci [fnd] (https://ropensci.org/)
 Maintainer: Scott Chamberlain <myrmecocystus@gmail.com>
 Repository: CRAN
-Date/Publication: 2019-01-23 06:50:03 UTC
+Date/Publication: 2020-04-17 21:00:16 UTC
