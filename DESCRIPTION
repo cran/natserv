@@ -1,9 +1,9 @@
 Package: natserv
 Title: 'NatureServe' Interface
-Description: Interface to 'NatureServe' (<https://www.natureserve.org>).
+Description: Interface to 'NatureServe' (<https://www.natureserve.org/>).
     Includes methods to get data, image metadata, search taxonomic names,
     and make maps.
-Version: 0.4.0
+Version: 1.0.0
 License: MIT + file LICENSE
 URL: https://docs.ropensci.org/natserv,
         https://github.com/ropensci/natserv
@@ -20,17 +20,17 @@ VignetteBuilder: knitr
 Language: en-US
 Encoding: UTF-8
 Depends: R(>= 3.2.1)
-Imports: crul (>= 0.7.0), xml2, tibble, data.table
-Suggests: testthat, knitr, ggplot2, maps, mapproj, vcr
+Imports: crul (>= 0.7.0), jsonlite, tibble
+Suggests: testthat, knitr, vcr
 RoxygenNote: 7.1.0
 X-schema.org-applicationCategory: Taxonomy
 X-schema.org-keywords: taxonomy, species, API, web-services,
         NatureServe, metadata, maps
 X-schema.org-isPartOf: https://ropensci.org
 NeedsCompilation: no
-Packaged: 2020-04-17 20:15:05 UTC; sckott
+Packaged: 2020-05-15 21:02:58 UTC; sckott
 Author: Scott Chamberlain [aut, cre] (<https://orcid.org/0000-0003-1444-9135>),
   rOpenSci [fnd] (https://ropensci.org/)
 Maintainer: Scott Chamberlain <myrmecocystus@gmail.com>
 Repository: CRAN
-Date/Publication: 2020-04-17 21:00:16 UTC
+Date/Publication: 2020-05-16 22:30:07 UTC
